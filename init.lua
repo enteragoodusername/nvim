@@ -149,4 +149,10 @@ require("skel-nvim").setup{
     ['*.html']   = "html.skel",
 	}
 }
+vim.api.nvim_create_user_command('FireOpen', function()
+	local job = vim.fn.jobstart('firefox -new-tab '.. vim.api.nvim_buf_get_name(0),
+	{
+		on_stdout = function() end
+	})
 
+end, { desc = 'Opens current file in firefox browser' })
