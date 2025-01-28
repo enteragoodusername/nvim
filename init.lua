@@ -24,6 +24,8 @@ Plug('hrsh7th/vim-vsnip')
 Plug('folke/lsp-colors.nvim')
 Plug('mbbill/undotree')
 Plug('windwp/nvim-ts-autotag')
+Plug('xiyaowong/transparent.nvim')
+
 vim.call('plug#end');
 
 vim.cmd('set autoindent')
