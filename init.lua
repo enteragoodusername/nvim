@@ -1,6 +1,5 @@
 local vim = vim
 local Plug = vim.fn['plug#']
-
 vim.call('plug#begin')
 
 
@@ -25,7 +24,7 @@ Plug('folke/lsp-colors.nvim')
 Plug('mbbill/undotree')
 Plug('windwp/nvim-ts-autotag')
 Plug('xiyaowong/transparent.nvim')
-
+vim.opt.clipboard = “unamedplus” 
 vim.call('plug#end');
 
 vim.cmd('set autoindent')
@@ -152,7 +151,18 @@ require("skel-nvim").setup{
 	}
 }
 vim.api.nvim_create_user_command('FireOpen', function()
-	local job = vim.fn.jobstart('firefox -new-tab '.. vim.api.nvim_buf_get_name(0),
+
+	vim.api.nvim_create_autocmd("ExitPre", {
+	pattern = "<buffer>",
+	  callback = function()
+		os.execute("sleep 1")
+		vim.cmd([[silent! %s/<script>.*<\/script>/]])
+		vim.cmd("write")
+	  end
+	});
+	vim.cmd([[%s/<img.*>/<!--&-->/g]])
+	vim.cmd([[%s/<!DOCTYPE.*>/&\r<script>setTimeout(function () {location.reload();}, 500);<\/script>]])
+	local job = vim.fn.jobstart('firefox -new-window '.. vim.api.nvim_buf_get_name(0),
 	{
 		on_stdout = function() end
 	})
