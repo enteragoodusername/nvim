@@ -3,13 +3,16 @@ local Plug = vim.fn['plug#']
 require('fireOpen')
 vim.call('plug#begin')
 vim.opt.clipboard = "unnamedplus"
+
 Plug('motosir/skel-nvim')
 Plug('tpope/vim-sensible')
 Plug('sainnhe/everforest')
+Plug('rose-pine/neovim',{as = "rose-pine"})
 Plug('williamboman/mason.nvim')
 Plug('williamboman/mason-lspconfig.nvim')
 Plug('ethanholz/nvim-lastplace')
 Plug('mfussenegger/nvim-lint')
+Plug('folke/trouble.nvim')
 Plug('mhartington/formatter.nvim')
 Plug('alvan/vim-closetag')
 Plug('neovim/nvim-lspconfig')
@@ -28,10 +31,11 @@ vim.opt.clipboard = “unamedplus”
 vim.call('plug#end');
 
 vim.cmd('set autoindent')
-vim.cmd('colorscheme everforest')
+vim.cmd("colorscheme rose-pine")
+--vim.cmd('colorscheme everforest')
 vim.cmd('set background=dark')
 vim.cmd('set undofile')
-
+vim.cmd([[let mapleader=","]])
 vim.cmd('set number relativenumber')
 vim.cmd('set nu rnu')
 vim.cmd('set pumheight=8')
@@ -41,6 +45,7 @@ require("mason-lspconfig").setup()
 require("mason-lspconfig").setup_handlers {
 	function (server_name) -- default handler (optional)
 	    require("lspconfig")[server_name].setup {
+		
 		settings = {
 			Lua = {
 				diagnostics = {
@@ -51,6 +56,8 @@ require("mason-lspconfig").setup_handlers {
 	    }
 	end
 }
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+require('lspconfig').gdscript.setup(capabilities)
 vim.diagnostic.config({
   virtual_text = true,
 })
@@ -59,6 +66,12 @@ require'cmp'.setup {
   sources = {
     { name = 'nvim_lsp' }
   }
+}
+require"trouble".setup{
+	  cmd = "Trouble",
+	  opts = {},
+   
+    
 }
 vim.opt.backup = false
 vim.opt.swapfile = false
