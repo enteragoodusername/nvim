@@ -125,7 +125,8 @@ local cmp = require'cmp'
       { name = 'buffer' },
     })
   })
-
+  -- removes highlight from the border, this would make the border opaque, now its transparent!
+	vim.api.nvim_set_hl(0,"FloatBorder", {bg = "NONE", blend =100})
   -- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
   -- Set configuration for specific filetype.
   --[[ cmp.setup.filetype('gitcommit', {
